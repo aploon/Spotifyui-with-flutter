@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spotify_clone/views/album_view.dart';
 
 class SongCard extends StatelessWidget {
-  final AssetImage? image;
+  final Image? image;
 
   const SongCard({
     Key? key,
@@ -21,22 +21,21 @@ class SongCard extends StatelessWidget {
           ),
         );
       },
-      child: Container(
-        width: 140,
-        child: Column(
-          children: [
-            Image(
-              image: image!,
-              width: 140,
-              height: 140,
-            ),
-            Text(
-              "Bad Bunny, Drake, Justin Bieber, Taylor Swift, Ed Sheeran",
-              style: Theme.of(context).textTheme.caption,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-            ),
-          ],
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
+        child: Container(
+          width: 140,
+          child: Column(
+            children: [
+              image!,
+              Text(
+                "Bad Bunny, Drake, Justin Bieber, Taylor Swift, Ed Sheeran",
+                style: Theme.of(context).textTheme.caption,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+              ),
+            ],
+          ),
         ),
       ),
     );

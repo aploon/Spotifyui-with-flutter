@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spotify_clone/views/album_view.dart';
 
 class AlbumCard extends StatelessWidget {
-  final ImageProvider? image;
+  final Image? image;
   final String? label;
   final Function? onTap;
   final double size;
@@ -27,18 +27,23 @@ class AlbumCard extends StatelessWidget {
           ),
         );
       },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Image(
-            image: image!,
-            width: size,
-            height: size,
-            fit: BoxFit.cover,
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
+        child: Container(
+          width: size,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              image!,
+              SizedBox(height: 10),
+              Text(
+                label!,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            ],
           ),
-          SizedBox(height: 10),
-          Text(label!),
-        ],
+        ),
       ),
     );
   }

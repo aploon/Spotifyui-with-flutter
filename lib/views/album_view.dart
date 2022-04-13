@@ -1,9 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:spotify_clone/widgets/album_card.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class AlbumView extends StatefulWidget {
-  final ImageProvider? image;
+  final Image? image;
 
   const AlbumView({Key? key, this.image}) : super(key: key);
   @override
@@ -46,6 +47,7 @@ class _AlbumViewState extends State<AlbumView> {
 
   @override
   Widget build(BuildContext context) {
+    
     final cardSize = MediaQuery.of(context).size.width / 2 - 32;
     return Scaffold(
       body: Stack(
@@ -54,30 +56,24 @@ class _AlbumViewState extends State<AlbumView> {
             height: containerHeight,
             width: MediaQuery.of(context).size.width,
             alignment: Alignment.center,
-            color: Colors.pink,
+            color: Color.fromARGB(210, 86, 87, 87),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Opacity(
                   opacity: imageOpacity.clamp(0, 1.0),
                   child: Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(.5),
-                          offset: Offset(0, 20),
-                          blurRadius: 32,
-                          spreadRadius: 16,
-                        )
-                      ],
-                    ),
-                    child: Image(
-                      image: widget.image!,
-                      width: imageSize,
-                      height: imageSize,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(.5),
+                            offset: Offset(0, 20),
+                            blurRadius: 32,
+                            spreadRadius: 16,
+                          )
+                        ],
+                      ),
+                      child: widget.image!),
                 ),
                 SizedBox(
                   height: 100,
@@ -176,30 +172,18 @@ class _AlbumViewState extends State<AlbumView> {
                               AlbumCard(
                                 size: cardSize,
                                 label: "Get Turnt",
-                                image: AssetImage("assets/album3.jpg"),
+                                image: Image(
+                                  image: AssetImage("assets/album3.jpg"),
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                               AlbumCard(
                                 size: cardSize,
                                 label: "Get Turnt",
-                                image: AssetImage("assets/album5.jpg"),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              AlbumCard(
-                                size: cardSize,
-                                label: "Get Turnt",
-                                image: AssetImage("assets/album6.jpg"),
-                              ),
-                              AlbumCard(
-                                size: cardSize,
-                                label: "Get Turnt",
-                                image: AssetImage("assets/album9.jpg"),
+                                image: Image(
+                                  image: AssetImage("assets/album5.jpg"),
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ],
                           ),
@@ -212,12 +196,42 @@ class _AlbumViewState extends State<AlbumView> {
                               AlbumCard(
                                 size: cardSize,
                                 label: "Get Turnt",
-                                image: AssetImage("assets/album10.jpg"),
+                                image: Image(
+                              image: AssetImage("assets/album6.jpg"),
+                              fit: BoxFit.cover,
+                            ),
                               ),
                               AlbumCard(
                                 size: cardSize,
                                 label: "Get Turnt",
-                                image: AssetImage("assets/album4.jpg"),
+                                image: Image(
+                              image: AssetImage("assets/album9.jpg"),
+                              fit: BoxFit.cover,
+                            ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              AlbumCard(
+                                size: cardSize,
+                                label: "Get Turnt",
+                                image: Image(
+                              image: AssetImage("assets/album10.jpg"),
+                              fit: BoxFit.cover,
+                            ),
+                              ),
+                              AlbumCard(
+                                size: cardSize,
+                                label: "Get Turnt",
+                                image: Image(
+                              image: AssetImage("assets/album4.jpg"),
+                              fit: BoxFit.cover,
+                            ),
                               ),
                             ],
                           ),
@@ -230,13 +244,14 @@ class _AlbumViewState extends State<AlbumView> {
             ),
           ),
           // App bar
+          // Color.fromARGB(210, 86, 87, 87),
           Positioned(
               child: Container(
             child: AnimatedContainer(
               duration: Duration(milliseconds: 250),
               color: showTopBar
-                  ? Color(0xFFC61855).withOpacity(1)
-                  : Color(0xFFC61855).withOpacity(0),
+                  ? Color.fromARGB(255, 27, 27, 27).withOpacity(1)
+                  : Colors.black.withOpacity(0),
               padding: EdgeInsets.symmetric(
                 horizontal: 16,
                 vertical: 8,
@@ -273,36 +288,50 @@ class _AlbumViewState extends State<AlbumView> {
                         right: 0,
                         bottom:
                             80 - containerHeight.clamp(120.0, double.infinity),
-                        child: Stack(
-                          alignment: Alignment.bottomRight,
-                          children: [
-                            Container(
-                              width: 64,
-                              height: 64,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0xff14D860),
+                        child: GestureDetector(
+                          onTap: () async {
+                            print("he");
+                            AudioPlayer player = AudioPlayer();
+                            
+                            int result = await player.play("https://cdns-preview-9.dzcdn.net/stream/c-9ebf6e13cf6ee229b0dd3e47bf195403-4.mp3", isLocal: false);
+
+                            if(result == 1){
+                              print("Succes");
+                            }else{
+                              print("Echecs");
+                            }
+                          },
+                          child: Stack(
+                            alignment: Alignment.bottomRight,
+                            children: [
+                              Container(
+                                width: 64,
+                                height: 64,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Color(0xff14D860),
+                                ),
+                                child: Icon(
+                                  Icons.play_arrow,
+                                  size: 38,
+                                ),
                               ),
-                              child: Icon(
-                                Icons.play_arrow,
-                                size: 38,
-                              ),
-                            ),
-                            Container(
-                              width: 24,
-                              height: 24,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.white,
-                              ),
-                              child: Icon(
-                                Icons.shuffle,
-                                color: Colors.black,
-                                size: 14,
-                              ),
-                            )
-                          ],
+                              Container(
+                                width: 24,
+                                height: 24,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white,
+                                ),
+                                child: Icon(
+                                  Icons.shuffle,
+                                  color: Colors.black,
+                                  size: 14,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       )
                     ],
